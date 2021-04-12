@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'helvetica';
+  src: url('../../Fonts/HelveticaNeueCyr-Bold.woff');
+  font-style: normal;
+  font-weight: 100;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  padding-bottom: 10px;
+}
+
+h1 {
+  font-size: 3rem;
+  font-family: Helvetica, sans-serif;
+  font-weight: 500;
+  color: white;
+  margin-right: 30px;
+}
+
+img {
+  width: 120px;
+  height: 100px;
+}
