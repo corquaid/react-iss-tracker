@@ -1,61 +1,244 @@
 @import url(https://fonts.googleapis.com/css?family=Space+Grotesk:300,regular,500,600,700);
 
+@font-face {
+    font-family: "helvetica";
+    src: url("./Fonts/HelveticaNeueCyr-Bold.woff");
+    font-style: normal;
+    font-weight: 100;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 h4 {
-  font-family: 'space grotesk', Arial, sans-serif;
-  font-size: 16px;
-  text-align: center;
-  /* text-decoration: underline; */
-  margin-top: 5px;
+    font-family: "space grotesk", Arial, sans-serif;
+    font-size: 17px;
+    text-align: center;
+    /* text-decoration: underline; */
+    margin-top: 8px;
+}
+
+p {
+    font-family: "space grotesk", Arial, sans-serif;
+    font-weight: 550;
+    font-size: 14px;
+    line-height: 5px;
+    padding: 5px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    font-family: "space grotesk", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 5px;
+    padding: 1px;
+    /* margin-bottom: 5px; */
+    vertical-align: middle;
+}
+
+a:hover {
+    color: orangered;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 5px;
+}
+
+li {
+    font-weight: normal;
+}
+
+li:last-child {
+    margin-bottom: 2px;
 }
 
 .button {
-  width: 80%;
-  font-family: 'space grotesk', Arial, sans-serif;
+    width: 80%;
+    font-family: Helvetica, sans-serif;
+    color: black;
+    background-color: #ff7400;
+    border: 2px solid white;
+}
+
+.button:hover {
+    background-color: black;
+    color: white;
 }
 
 .app-body {
-    height: 100vh;
-    background-color: #545252;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(to bottom, #000000 0%, #02010c 75%, #1293c9 100%);
+    /* background-image: url("https://scx2.b-cdn.net/gfx/news/hires/2016/beautifulgre.jpg");
+    background-size: 100% 100%; */
     padding: 10px;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     overflow: hidden;
 }
 
 .main-content {
-  width: 100%;
-  height: 500px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+    width: 100%;
+    height: 75vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    /* margin-bottom: px; */
 }
 
 .side-column {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    width: 15vw;
+    width: 12vw;
+    max-width: 200px;
     height: 100%;
+    /* max-height: 700px; */
 }
 
 .data-panel {
-    width: 100%;
+    width: 95%;
+    max-width: 180px;
     height: auto;
-    background-color: #b7b2b2;
-    border: 2px solid white;
-    border-radius: 20px;
-  
+    background-color: #e3e0e0;
+    border-radius: 5px;
 }
 
-.astro-panel {
-  width: 100%;
-  height: auto;
-  background-color: #b7b2b2;
-    border: 2px solid white;
-    border-radius: 20px;
+.crew-panel {
+    width: 100%;
+    height: 800px;
+    max-width: 180px;
+    /* max-height: 700px; */
+    background-color: #e3e0e0;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .map-container {
-  height: 500px;
-  width: 60%;
+    height: 100%;
+    width: 70%;
+}
+
+.visibility {
+    text-transform: capitalize;
+}
+
+.horizon-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.horizon-container img {
+    height: 25px;
+    width: 25px;
+    opacity: 0.7;
+    margin-right: 5px;
+}
+
+.find-ISS {
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 0;
+    width: 95%;
+    text-align: center;
+}
+
+.small-flag {
+    width: 20px;
+    height: auto;
+    margin-left: 5px;
+}
+
+.ship-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 24px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    /* padding: 4px; */
+}
+
+.commander-p {
+    font-size: 12px;
+    margin-left: 3px;
+}
+
+.expedition-p {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.expedition-patch {
+    width: auto;
+    height: 150px;
+    align-self: center;
+    display: block;
+    margin: 5px auto 20px auto;
+    overflow: hidden;
+}
+
+.popover-box {
+    width: 450px;
+    height: 300px;
+}
+
+.popover-body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.popover-img {
+    width: auto;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.popover-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-left: 10px;
+}
+
+.popover-p {
+    padding: 2px;
+    font-family: "space grotesk", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 2px;
+}
+
+.small-flag-crew {
+    width: 20px;
+    height: auto;
+    margin-left: 5px;
 }
