@@ -10,7 +10,7 @@ const Footer = () => (
     <div className="footer">
         <div className="footer-content">
             {/* <p className="footer-p">About</p> */}
-            <a className="profile-link" href="https://github.com/corquaid/iss-tracker-React" target="blank">
+            <a className="profile-link" href="https://github.com/corquaid/react-iss-tracker" target="blank">
                 <FontAwesomeIcon className="awesome-icon" icon={['fab', "github"]}/>
                 corquaid
             </a>
