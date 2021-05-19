@@ -1,6 +1,6 @@
 {
   "name": "react-iss-tracker",
-  "homepage": "https://corquaid.github.io/iss-tracker-React/",
+  "homepage": "http://corquaid.github.io/iss-tracker-React/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
