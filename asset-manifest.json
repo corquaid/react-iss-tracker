@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/react-iss-tracker/static/css/main.111aa68d.chunk.css",
+    "main.js": "/react-iss-tracker/static/js/main.5498bee2.chunk.js",
+    "main.js.map": "/react-iss-tracker/static/js/main.5498bee2.chunk.js.map",
+    "runtime-main.js": "/react-iss-tracker/static/js/runtime-main.35816d22.js",
+    "runtime-main.js.map": "/react-iss-tracker/static/js/runtime-main.35816d22.js.map",
+    "static/js/2.d037306f.chunk.js": "/react-iss-tracker/static/js/2.d037306f.chunk.js",
+    "static/js/2.d037306f.chunk.js.map": "/react-iss-tracker/static/js/2.d037306f.chunk.js.map",
+    "static/js/3.c4eb58f7.chunk.js": "/react-iss-tracker/static/js/3.c4eb58f7.chunk.js",
+    "static/js/3.c4eb58f7.chunk.js.map": "/react-iss-tracker/static/js/3.c4eb58f7.chunk.js.map",
+    "index.html": "/react-iss-tracker/index.html",
+    "static/css/main.111aa68d.chunk.css.map": "/react-iss-tracker/static/css/main.111aa68d.chunk.css.map",
+    "static/js/2.d037306f.chunk.js.LICENSE.txt": "/react-iss-tracker/static/js/2.d037306f.chunk.js.LICENSE.txt",
+    "static/media/header.scss": "/react-iss-tracker/static/media/HelveticaNeueCyr-Bold.e8ac3e02.woff",
+    "static/media/International_Space_Station_white.svg.b0c96d56.png": "/react-iss-tracker/static/media/International_Space_Station_white.svg.b0c96d56.png",
+    "static/media/PinClipart.com_pete-the-cat-buttons_1571732.cee1b163.png": "/react-iss-tracker/static/media/PinClipart.com_pete-the-cat-buttons_1571732.cee1b163.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.35816d22.js",
+    "static/js/2.d037306f.chunk.js",
+    "static/css/main.111aa68d.chunk.css",
+    "static/js/main.5498bee2.chunk.js"
+  ]
+}
