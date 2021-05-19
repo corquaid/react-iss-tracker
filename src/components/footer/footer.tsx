@@ -9,7 +9,7 @@ const Footer = () => (
     
     <div className="footer">
         <div className="footer-content">
-            <p className="footer-p">About</p>
+            {/* <p className="footer-p">About</p> */}
             <a className="profile-link" href="https://github.com/corquaid/iss-tracker-React" target="blank">
                 <FontAwesomeIcon className="awesome-icon" icon={['fab', "github"]}/>
                 corquaid
