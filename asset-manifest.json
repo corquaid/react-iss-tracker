@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-iss-tracker/static/css/main.111aa68d.chunk.css",
-    "main.js": "/react-iss-tracker/static/js/main.5498bee2.chunk.js",
-    "main.js.map": "/react-iss-tracker/static/js/main.5498bee2.chunk.js.map",
+    "main.js": "/react-iss-tracker/static/js/main.afd62f1a.chunk.js",
+    "main.js.map": "/react-iss-tracker/static/js/main.afd62f1a.chunk.js.map",
     "runtime-main.js": "/react-iss-tracker/static/js/runtime-main.35816d22.js",
     "runtime-main.js.map": "/react-iss-tracker/static/js/runtime-main.35816d22.js.map",
     "static/js/2.d037306f.chunk.js": "/react-iss-tracker/static/js/2.d037306f.chunk.js",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.35816d22.js",
     "static/js/2.d037306f.chunk.js",
     "static/css/main.111aa68d.chunk.css",
-    "static/js/main.5498bee2.chunk.js"
+    "static/js/main.afd62f1a.chunk.js"
   ]
 }
