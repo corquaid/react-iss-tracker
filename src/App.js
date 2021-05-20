@@ -181,15 +181,11 @@ const App = () => {
 
     return (
         <div className="app-body">
-            <Helmet
-                title={seoTestData.title}
-                meta={[
-                    {
-                        name: "description",
-                        content: seoTestData.description,
-                    },
-                ]}
-            />
+            <Helmet>
+                <title>{seoTestData.title}</title>
+                <link rel="canonical" href="https://corquaid.github.io/react-iss-tracker" />
+                <meta name="description" content={seoTestData.description} />
+            </Helmet>
             <Header />
             <div className="main-content">
                 <div className="side-column">
