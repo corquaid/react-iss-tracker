@@ -11,6 +11,7 @@ import horizonCircle from "../src/Images/PinClipart.com_pete-the-cat-buttons_157
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { Helmet } from "react-helmet";
 
 // API urls
 const orbitalDataUrl = "https://api.wheretheiss.at/v1/satellites/25544";
@@ -172,8 +173,23 @@ const App = () => {
         return null;
     };
 
+    const seoTestData = {
+        title: "ISS Tracker | @corquaid",
+        description:
+            "Track the International Space Station and see the spacecraft and astronaut crew with this App created in React.",
+    };
+
     return (
         <div className="app-body">
+            <Helmet
+                title={seoTestData.title}
+                meta={[
+                    {
+                        name: "description",
+                        content: seoTestData.description,
+                    },
+                ]}
+            />
             <Header />
             <div className="main-content">
                 <div className="side-column">

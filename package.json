@@ -17,6 +17,7 @@
     "leaflet": "^1.7.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-helmet": "^6.1.0",
     "react-leaflet": "^3.1.0",
     "react-leaflet-fullscreen-control": "^0.0.4",
     "react-leaflet-night-region": "^1.0.2",
