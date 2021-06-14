@@ -8,12 +8,21 @@
 }
 
 body {
-    height: 100vh;
+    min-height: 100%;
+}
+
+html {
+    height: 100%;
+}
+
+.root {
     width: 100vw;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding: 0;
 }
 
 h4 {
@@ -77,51 +86,54 @@ li:last-child {
 .app-body {
     background: rgb(0, 0, 0);
     background: linear-gradient(to bottom, #000000 0%, #02010c 75%, #1293c9 100%);
-    /* background-image: url("https://scx2.b-cdn.net/gfx/news/hires/2016/beautifulgre.jpg");
-    background-size: 100% 100%; */
-    padding: 10px;
     height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    overflow: hidden;
 }
 
 .main-content {
     width: 100%;
-    height: 75vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    /* margin-bottom: px; */
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: 1fr 3fr 3fr 1fr;
+    grid-gap: 10px;
+    grid-template-areas:
+        "header     header header"
+        "data       map    crew"
+        "spacecraft map    crew"
+        ".          link.  ";
 }
 
-.side-column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 12vw;
-    max-width: 200px;
-    height: 100%;
-    /* max-height: 700px; */
+.data-panel,
+.spacecraft-panel {
+    width: 180px;
+    height: fit-content;
+    padding: 0 0.5vw;
+    background-color: #e3e0e0;
+    border-radius: 5px;
+    justify-self: center;
+    align-self: flex-start;
 }
 
 .data-panel {
-    width: 95%;
-    max-width: 180px;
-    height: auto;
-    background-color: #e3e0e0;
-    border-radius: 5px;
+    grid-area: data;
+}
+
+.spacecraft-panel {
+    grid-area: spacecraft;
 }
 
 .crew-panel {
-    width: 100%;
-    height: 800px;
-    max-width: 180px;
-    /* max-height: 700px; */
+    grid-area: crew;
+    align-self: flex-start;
+    justify-self: center;
+    width: 180px;
+    height: fit-content;
+    padding: 0 0.5vw;
     background-color: #e3e0e0;
     border-radius: 5px;
     display: flex;
@@ -132,7 +144,9 @@ li:last-child {
 
 .map-container {
     height: 100%;
-    width: 70%;
+    width: 100%;
+    grid-area: map;
+    align-self: stretch;
 }
 
 .visibility {
@@ -156,13 +170,9 @@ li:last-child {
 }
 
 .find-ISS {
-    color: white;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 20px;
-    padding: 0;
-    width: 95%;
-    text-align: center;
+    max-width: 150px;
+    word-wrap: break-word;
+    line-height: normal;
 }
 
 .small-flag {
@@ -174,7 +184,7 @@ li:last-child {
 .ship-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     height: 24px;
     margin-bottom: 4px;
@@ -241,4 +251,161 @@ li:last-child {
     width: 20px;
     height: auto;
     margin-left: 5px;
+}
+
+.profile-link {
+    grid-area: link;
+    align-self: center;
+    justify-self: center;
+    color: white;
+    font-family: "space grotesk", Arial, sans-serif;
+    font-size: 16px;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-link:hover {
+    color: orangered;
+}
+
+.awesome-icon {
+    margin-right: 5px;
+}
+
+@media screen and (max-width: 1100px) {
+    .app-body {
+        height: 100%;
+    }
+
+    .main-content {
+        width: 95%;
+        grid-template-columns: 1fr 1fr 3fr;
+        grid-template-rows: 1fr 3fr 2fr 3fr;
+        grid-template-areas:
+            "header       header header"
+            "data         map    map"
+            "spacecraft   map    map"
+            "crew         crew   link";
+        /* overflow: hidden; */
+    }
+
+    .data-panel {
+        grid-area: data;
+        height: 100%;
+    }
+
+    .spacecraft-panel {
+        grid-area: spacecraft;
+        height: auto;
+    }
+
+    .crew-panel {
+        width: auto;
+        height: 100%;
+        grid-area: crew;
+        justify-self: flex-start;
+        max-height: 100%;
+        display: grid;
+        grid-template-columns: 180px 200px;
+        grid-template-rows: 30px 1fr 30px;
+        grid-template-areas:
+            "title exp"
+            "list  patch"
+            "comm  patch";
+    }
+
+    .map-container {
+        grid-area: map;
+    }
+
+    .profile-link {
+        grid-area: link;
+        align-self: baseline;
+        justify-self: center;
+    }
+
+    .crew-title {
+        grid-area: title;
+        align-self: flex-start;
+    }
+
+    .expedition-p {
+        grid-area: exp;
+        align-self: flex-start;
+        justify-self: center;
+        padding: 0;
+        font-size: 17px;
+    }
+
+    .crew-list {
+        grid-area: list;
+    }
+
+    .expedition-patch {
+        grid-area: patch;
+        align-self: center;
+        width: 70%;
+        height: auto;
+    }
+
+    .commander-p {
+        grid-area: comm;
+        align-self: flex-end;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .main-content {
+        width: 90%;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 100px 2fr 1fr 1fr 50px;
+        grid-template-areas:
+            "header header"
+            "map    map"
+            "crew   crew"
+            "data   spacecraft"
+            "link   link";
+        overflow: hidden;
+    }
+
+    .crew-panel {
+        justify-self: center;
+        align-self: center;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .main-content {
+        width: 90%;
+        grid-template-columns: 100%;
+        grid-template-rows: auto 1fr 1fr 0.5fr 0.45fr 50px;
+        grid-template-areas:
+            "header"
+            "map"
+            "crew"
+            "data"
+            "spacecraft"
+            "link";
+        overflow: hidden;
+    }
+
+    .crew-panel {
+        justify-self: center;
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 180px;
+    }
+
+    .crew-title {
+        align-self: center;
+    }
+
+    .commander-p {
+        align-self: center;
+    }
 }

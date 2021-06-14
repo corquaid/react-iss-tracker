@@ -1,3 +1,6 @@
+import L from "leaflet";
+
+// NightRegion util functions
 export const getJulianDate = date => (date / 86400000) + 2440587.5;
 export const daysSinceJ2000 = date => date - 2451545.0;
 
@@ -60,3 +63,29 @@ export const computeLatitude = (ha, sunPos) => {
     Math.tan(sunPos.delta * Math.PI / 180)) * 180 / Math.PI;;
   return lat;
 }
+
+export const seoTestData = {
+  title: "ISS Tracker | @corquaid",
+  description:
+      "Track the International Space Station and see the spacecraft and astronaut crew with this App created in React.",
+};
+
+export const issIcon = L.icon({
+  iconUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/International_Space_Station_%28Expedition_58_Patch%29.svg/500px-International_Space_Station_%28Expedition_58_Patch%29.svg.png",
+  iconSize: [70, 50],
+});
+
+export const sunIcon = L.icon({
+  iconUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Sun_wearing_sunglasses.svg/1024px-Sun_wearing_sunglasses.svg.png",
+  iconSize: [60, 60],
+});
+
+export const apiUrls = {
+  orbitalDataUrl: "https://api.wheretheiss.at/v1/satellites/25544",
+  spacecraftUrl: "https://corquaid.github.io/international-space-station-APIs/JSON/iss-docked-spacecraft.json",
+  peopleUrl: "https://corquaid.github.io/international-space-station-APIs/JSON/people-in-space.json"
+}
+
+export const timeNowSecs = Math.floor(new Date().getTime() / 1000);

@@ -1,36 +1,23 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import Header from "./components/header/header.tsx";
-import Footer from "./components/footer/footer";
+import Header from "./components/header/header";
 import useInterval from "use-interval";
-import L from "leaflet";
 import { MapContainer, useMap, TileLayer, Marker, ZoomControl, Popup, Circle, useMapEvent } from "react-leaflet";
 // @ts-ignore
 import { NightRegion } from "./components/night-region/night-region";
 import horizonCircle from "../src/Images/PinClipart.com_pete-the-cat-buttons_1571732.png";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
+// import Spinner from "./components/spinner/spinner";
 import { makeStyles } from "@material-ui/core/styles";
 import { Helmet } from "react-helmet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { seoTestData, issIcon, sunIcon, apiUrls, timeNowSecs } from "./components/utils";
 
-// API urls
-const orbitalDataUrl = "https://api.wheretheiss.at/v1/satellites/25544";
-const spacecraftUrl = "https://corquaid.github.io/international-space-station-APIs/JSON/iss-docked-spacecraft.json";
-const peopleUrl = "https://corquaid.github.io/international-space-station-APIs/JSON/people-in-space.json";
-
-// ISS icon
-const issIcon = L.icon({
-    iconUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/International_Space_Station_%28Expedition_58_Patch%29.svg/500px-International_Space_Station_%28Expedition_58_Patch%29.svg.png",
-    iconSize: [70, 50],
-});
-
-// Sun position icon
-const sunIcon = L.icon({
-    iconUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Sun_wearing_sunglasses.svg/1024px-Sun_wearing_sunglasses.svg.png",
-    iconSize: [60, 60],
-});
+// FontAwesome library
+library.add(fab);
 
 const mapBounds = [
     [-90, -180],
@@ -49,9 +36,10 @@ const useStyles = makeStyles(theme => ({
         height: "20px",
         fontFamily: "space grotesk, Arial, sans-serif",
         fontSize: "14px",
-        lineHeight: "5px",
+        // lineHeight: "5px",
         padding: "5px",
         marginTop: "0px",
+        textAlign: "center",
     },
 }));
 
@@ -80,14 +68,19 @@ const App = () => {
     const [expedition, setExpedition] = useState("");
     const [patchURL, setPatchURL] = useState("");
     const [expeditionURL, setExpeditionURL] = useState("");
+    const [expeditionImage, setExpeditionImage] = useState("");
     const [anchorEl, setAnchorEl] = useState(null);
     const [openedSpacecraftPopoverId, setOpenedSpacecraftPopoverId] = useState(null);
+    const [openedExpPopoverId, setOpenedExpPopoverId] = useState(null);
     const [openedCrewPopoverId, setOpenedCrewPopoverId] = useState(null);
     const [currentEpoch, setCurrentEpoch] = useState(0);
 
-    // const { classes } = props;
+    const { orbitalDataUrl, spacecraftUrl, peopleUrl } = apiUrls;
 
-    // Main setInterval API call function for ISS position data
+    // const [dataLoading, setDataLoading] = useState(true);
+    // const [staticLoading, setStaticLoading] = useState(true);
+
+    // setInterval API call function for ISS position data
     useInterval(async () => {
         const response = await fetch(orbitalDataUrl);
         const data = await response.json();
@@ -115,31 +108,45 @@ const App = () => {
     // API call for static spacecraft and crew data
     useEffect(() => {
         const spacecraftDataCall = async () => {
-            const response = await fetch(spacecraftUrl);
-            const data = await response.json();
-            setSpacecraft(data.spacecraft);
-            // console.log(data.spacecraft);
+            try {
+                const response = await fetch(spacecraftUrl);
+                const data = await response.json();
+
+                const arrayData = Object.entries(data);
+                const filteredData = arrayData[1][1].filter(spacecraft => {
+                    return spacecraft.iss === true;
+                });
+                setSpacecraft(filteredData);
+            } catch (err) {
+                console.error(err);
+            }
 
             // Get time since epoch on page load or "Days In Space" calculations
-            const timeNowSecs = Math.floor(new Date().getTime() / 1000);
             setCurrentEpoch(timeNowSecs);
-            // console.log(timeNowSecs)
         };
 
         const crewDataCall = async () => {
-            const response = await fetch(peopleUrl);
-            const data = await response.json();
-
-            setCrew(data.people);
-            setExpedition(data.iss_expedition);
-            setPatchURL(data.expedition_patch);
-            setExpeditionURL(data.expedition_url);
-            // console.log(data.people)
+            try {
+                const response = await fetch(peopleUrl);
+                const data = await response.json();
+                const arrayData = Object.entries(data);
+                // console.log(arrayData);
+                const crewData = arrayData[5][1].filter(person => {
+                    return person.iss === true;
+                });
+                setCrew(crewData); // filtered for crew data only to remove people not going to ISS
+                setExpedition(data.iss_expedition);
+                setPatchURL(data.expedition_patch);
+                setExpeditionURL(data.expedition_url);
+                setExpeditionImage(data.expedition_image);
+            } catch (err) {
+                console.error(err);
+            }
         };
 
         spacecraftDataCall();
         crewDataCall();
-    }, []);
+    }, [peopleUrl, spacecraftUrl]);
 
     // Handler functions and variables for Crew Popovers
     const handleCrewPopoverOpen = (e, popoverId) => {
@@ -150,6 +157,19 @@ const App = () => {
     const handleCrewPopoverClose = () => {
         setAnchorEl(null);
         setOpenedCrewPopoverId(null);
+    };
+
+    // Handler functions for Expedition popover
+    const handleExpPopoverOpen = (e, popoverId) => {
+        setAnchorEl(e.target);
+        setOpenedExpPopoverId(popoverId);
+        // console.log("popover opened")
+    };
+
+    const handleExpPopoverClose = () => {
+        setAnchorEl(null);
+        setOpenedExpPopoverId(null);
+        // console.log("popover closed")
     };
 
     // Handler functions and variables for Spacecraft Popovers
@@ -173,12 +193,6 @@ const App = () => {
         return null;
     };
 
-    const seoTestData = {
-        title: "ISS Tracker | @corquaid",
-        description:
-            "Track the International Space Station and see the spacecraft and astronaut crew with this App created in React.",
-    };
-
     return (
         <div className="app-body">
             <Helmet>
@@ -186,118 +200,120 @@ const App = () => {
                 <link rel="canonical" href="https://corquaid.github.io/react-iss-tracker" />
                 <meta name="description" content={seoTestData.description} />
             </Helmet>
-            <Header />
             <div className="main-content">
-                <div className="side-column">
-                    <div className="data-panel">
-                        <h4>Orbital Data</h4>
-                        {issLat > 0 ? (
-                            <p>Latitude: {issLat.toFixed(2)} ° N</p>
-                        ) : (
-                            <p>Latitude: {(issLat * -1).toFixed(2)} ° S</p>
-                        )}
-                        {issLong > 0 ? (
-                            <p>Longitude: {issLong.toFixed(2)} ° E</p>
-                        ) : (
-                            <p>Longitude: {(issLong * -1).toFixed(2)} ° W</p>
-                        )}
-                        <p>Velocity: {issVel.toFixed(2)} km/h</p>
-                        <p>Altitude: {issAlt.toFixed(2)} km</p>
-                        <p className="visibility">ISS Visibility: {visibility}</p>
-                        <div className="horizon-container">
-                            <img src={horizonCircle} alt="horizon indicator"></img>
-                            <p>ISS Horizon</p>
-                        </div>
+                <Header />
+                <div className="data-panel panel-1">
+                    <h4>Orbital Data</h4>
+                    {issLat > 0 ? (
+                        <p>Latitude: {issLat.toFixed(2)} ° N</p>
+                    ) : (
+                        <p>Latitude: {(issLat * -1).toFixed(2)} ° S</p>
+                    )}
+                    {issLong > 0 ? (
+                        <p>Longitude: {issLong.toFixed(2)} ° E</p>
+                    ) : (
+                        <p>Longitude: {(issLong * -1).toFixed(2)} ° W</p>
+                    )}
+                    <p>Velocity: {issVel.toFixed(2)} km/h</p>
+                    <p>Altitude: {issAlt.toFixed(2)} km</p>
+                    <p className="visibility">
+                        ISS Visibility:
+                        {visibility === "eclipsed" ? " In shadow" : " Daylight"}
+                    </p>
+                    <div className="horizon-container">
+                        <img src={horizonCircle} alt="horizon indicator"></img>
+                        <p>ISS Horizon</p>
                     </div>
-                    <p className="find-ISS">Click anywhere on the map to find the ISS</p>
-                    <div className="data-panel">
-                        <h4>Spacecraft @ ISS</h4>
-                        <ul>
-                            {spacecraft.map(ship => (
-                                <li key={ship.id}>
-                                    <Typography
-                                        classes={{ body1: classes.body1 }}
-                                        aria-owns={open ? "mouse-over-popover" : undefined}
-                                        aria-haspopup="true"
-                                        onMouseEnter={e => handleSpacecraftPopoverOpen(e, ship.id)}
-                                        onMouseLeave={handleSpacecraftPopoverClose}
-                                    >
-                                        <div className="ship-container">
-                                            <a href={ship.url} key={ship.id} target="blank">
-                                                {ship.name}
-                                            </a>
-                                            <img
-                                                className="small-flag"
-                                                src={`https://flagcdn.com/w20/${ship.flag_code}.png`}
-                                                alt="spacecraft flag"
-                                            ></img>
-                                        </div>
-                                    </Typography>
-                                    <Popover
-                                        id="mouse-over-popover"
-                                        className={classes.popover}
-                                        classes={{
-                                            paper: classes.paper,
-                                        }}
-                                        open={openedSpacecraftPopoverId === ship.id}
-                                        anchorEl={anchorEl}
-                                        // anchorPosition={{ top: 500, left: 200 }}
-                                        anchorOrigin={{
-                                            vertical: "top",
-                                            horizontal: "right",
-                                        }}
-                                        transformOrigin={{
-                                            vertical: "bottom",
-                                            horizontal: "left",
-                                        }}
-                                        onClose={handleSpacecraftPopoverClose}
-                                        disableRestoreFocus
-                                    >
-                                        <Typography>
-                                            <div className="popover-body">
-                                                {ship.mission_patch ? (
-                                                    <img
-                                                        className="popover-img"
-                                                        src={ship.mission_patch}
-                                                        alt="mission patch"
-                                                    ></img>
-                                                ) : (
-                                                    <img
-                                                        className="popover-img"
-                                                        src={ship.image}
-                                                        alt="spacecraft"
-                                                    ></img>
-                                                )}
-                                                <div className="popover-info">
-                                                    <p className="popover-p">
-                                                        <strong>Name: </strong>
-                                                        {ship.name}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Mission: </strong>
-                                                        {ship.mission_type}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Operator: </strong>
-                                                        {ship.operator}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Launch Vehicle: </strong>
-                                                        {ship.launch_vehicle}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Time In Space: </strong>
-                                                        {((currentEpoch - ship.launched) / 86400).toFixed(0)} days
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </Typography>
-                                    </Popover>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <p className="find-ISS">Click anywhere on the map to find the ISS!</p>
                 </div>
+
+                <div className="spacecraft-panel panel-2">
+                    <h4>Spacecraft @ ISS</h4>
+                    <ul>
+                        {spacecraft.map(ship => (
+                            <li key={ship.id}>
+                                <Typography
+                                    classes={{ body1: classes.body1 }}
+                                    aria-owns={open ? "mouse-over-popover" : undefined}
+                                    aria-haspopup="true"
+                                    onMouseEnter={e => handleSpacecraftPopoverOpen(e, ship.id)}
+                                    onMouseLeave={handleSpacecraftPopoverClose}
+                                >
+                                    <div className="ship-container">
+                                        <a href={ship.url} key={ship.id} target="blank">
+                                            {ship.name}
+                                        </a>
+                                        <img
+                                            className="small-flag"
+                                            src={`https://flagcdn.com/w20/${ship.flag_code}.png`}
+                                            alt="spacecraft flag"
+                                        ></img>
+                                    </div>
+                                </Typography>
+                                <Popover
+                                    id="mouse-over-popover"
+                                    className={classes.popover}
+                                    classes={{
+                                        paper: classes.paper,
+                                    }}
+                                    open={openedSpacecraftPopoverId === ship.id}
+                                    anchorEl={anchorEl}
+                                    // anchorPosition={{ top: 500, left: 200 }}
+                                    anchorOrigin={{
+                                        vertical: "top",
+                                        horizontal: "right",
+                                    }}
+                                    transformOrigin={{
+                                        vertical: "bottom",
+                                        horizontal: "left",
+                                    }}
+                                    onClose={handleSpacecraftPopoverClose}
+                                    disableRestoreFocus
+                                >
+                                    <Typography>
+                                        <span className="popover-body">
+                                            {ship.mission_patch ? (
+                                                <img
+                                                    className="popover-img"
+                                                    src={ship.mission_patch}
+                                                    alt="mission patch"
+                                                ></img>
+                                            ) : (
+                                                <img className="popover-img" src={ship.image} alt="spacecraft"></img>
+                                            )}
+                                            <span className="popover-info">
+                                                <p className="popover-p">
+                                                    <strong>Name: </strong>
+                                                    {ship.name}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Mission: </strong>
+                                                    {ship.mission_type}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Operator: </strong>
+                                                    {ship.operator}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Launch Vehicle: </strong>
+                                                    {ship.launch_vehicle}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Time In Space: </strong>
+                                                    {((currentEpoch - ship.launched) / 86400).toFixed(0)} days
+                                                </p>
+                                            </span>
+                                        </span>
+                                    </Typography>
+                                </Popover>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <a className="profile-link panel-2" href="https://github.com/corquaid/react-iss-tracker" target="blank">
+                    <FontAwesomeIcon className="awesome-icon" icon={["fab", "github"]} />
+                    corquaid
+                </a>
                 <MapContainer
                     bounds={mapBounds}
                     className="map-container"
@@ -313,7 +329,7 @@ const App = () => {
                         url="https://api.maptiler.com/maps/outdoor/{z}/{x}/{y}.png?key=I5jJIO0gVFZgkPhGgi1t"
                     />
                     <FirstCenter issLat={issLat} issLong={issLong} firstCall={firstCall} />
-                    <ZoomControl position="bottomleft" />
+                    <ZoomControl position="topleft" />
                     <FindIss />
                     <NightRegion fillColor="#00" fillOpacity="0.6" color="#00" worldCopyJump={true} />
                     <Marker position={[issLat, issLong]} icon={issIcon}>
@@ -335,110 +351,134 @@ const App = () => {
                         title={"ISS visible horizon"}
                     />
                 </MapContainer>
-                <div className="side-column">
-                    <div className="crew-panel">
-                        <h4>ISS Crew</h4>
+
+                <div className="crew-panel panel-3">
+                    <h4 className="crew-title">ISS Crew</h4>
+                    <Typography
+                        classes={{ body1: classes.body1 }}
+                        aria-owns={open ? "mouse-over-popover" : undefined}
+                        aria-haspopup="true"
+                        onMouseEnter={e => handleExpPopoverOpen(e, expedition)}
+                        onMouseLeave={handleExpPopoverClose}
+                    >
                         <a className="expedition-p" href={expeditionURL} target="blank">
                             Expedition {expedition}
                         </a>
-                        <ul>
-                            {crew.map(person => (
-                                <li key={person.id}>
-                                    <Typography
-                                        classes={{ body1: classes.body1 }}
-                                        aria-owns={open ? "mouse-over-popover" : undefined}
-                                        aria-haspopup="true"
-                                        onMouseEnter={e => handleCrewPopoverOpen(e, person.id)}
-                                        onMouseLeave={handleCrewPopoverClose}
-                                    >
-                                        <div className="ship-container">
-                                            <a href={person.url} target="blank">
-                                                {person.name}
-                                            </a>
+                    </Typography>
+                    <Popover
+                        id="mouse-over-popover"
+                        className={classes.popover}
+                        classes={{
+                            paper: classes.paper,
+                        }}
+                        open={openedExpPopoverId === expedition}
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                        }}
+                        transformOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right",
+                        }}
+                        onClose={handleExpPopoverClose}
+                        disableRestoreFocus
+                    >
+                        <Typography>
+                            <span className="popover-body">
+                                <img className="popover-img" src={expeditionImage} alt="expedition portrait"></img>
+                            </span>
+                        </Typography>
+                    </Popover>
+                    <ul className="crew-list">
+                        {crew.map(person => (
+                            <li key={person.id}>
+                                <Typography
+                                    classes={{ body1: classes.body1 }}
+                                    aria-owns={open ? "mouse-over-popover" : undefined}
+                                    aria-haspopup="true"
+                                    onMouseEnter={e => handleCrewPopoverOpen(e, person.id)}
+                                    onMouseLeave={handleCrewPopoverClose}
+                                >
+                                    <div className="ship-container">
+                                        <a href={person.url} target="blank">
+                                            {person.name}
+                                        </a>
 
-                                            {person.position === "Commander" && <p className="commander-p">*</p>}
+                                        {person.position === "Commander" && <p className="commander-p">*</p>}
+                                        <img
+                                            className="small-flag-crew"
+                                            src={`https://flagcdn.com/w20/${person.flag_code}.png`}
+                                            alt="spacecraft flag"
+                                        ></img>
+                                    </div>
+                                </Typography>
+                                <Popover
+                                    id="mouse-over-popover"
+                                    className={classes.popover}
+                                    classes={{
+                                        paper: classes.paper,
+                                    }}
+                                    open={openedCrewPopoverId === person.id}
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: "top",
+                                        horizontal: "left",
+                                    }}
+                                    transformOrigin={{
+                                        vertical: "bottom",
+                                        horizontal: "right",
+                                    }}
+                                    onClose={handleCrewPopoverClose}
+                                    disableRestoreFocus
+                                >
+                                    <Typography>
+                                        <span className="popover-body">
                                             <img
-                                                className="small-flag-crew"
-                                                src={`https://flagcdn.com/w20/${person.flag_code}.png`}
-                                                alt="spacecraft flag"
+                                                className="popover-img"
+                                                src={person.image}
+                                                alt="astronaut portrait"
                                             ></img>
-                                        </div>
+                                            <span className="popover-info">
+                                                <p className="popover-p">
+                                                    <strong>Name: </strong>
+                                                    {person.name}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Nationality: </strong>
+                                                    {person.country}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Agency: </strong>
+                                                    {person.agency}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Position: </strong>
+                                                    {person.position}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Spacecraft: </strong>
+                                                    {person.spacecraft}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Career in Space: </strong>
+                                                    {(
+                                                        (currentEpoch - person.launched) / 86400 +
+                                                        person.days_in_space
+                                                    ).toFixed(0)}{" "}
+                                                    days
+                                                </p>
+                                            </span>
+                                        </span>
                                     </Typography>
-                                    <Popover
-                                        id="mouse-over-popover"
-                                        className={classes.popover}
-                                        classes={{
-                                            paper: classes.paper,
-                                        }}
-                                        open={openedCrewPopoverId === person.id}
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{
-                                            vertical: "top",
-                                            horizontal: "left",
-                                        }}
-                                        transformOrigin={{
-                                            vertical: "bottom",
-                                            horizontal: "right",
-                                        }}
-                                        onClose={handleCrewPopoverClose}
-                                        disableRestoreFocus
-                                    >
-                                        <Typography>
-                                            <div className="popover-body">
-                                                <img
-                                                    className="popover-img"
-                                                    src={person.image}
-                                                    alt="astronaut portrait"
-                                                ></img>
-                                                <div className="popover-info">
-                                                    <p className="popover-p">
-                                                        <strong>Name: </strong>
-                                                        {person.name}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Nationality: </strong>
-                                                        {person.country}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Agency: </strong>
-                                                        {person.agency}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Position: </strong>
-                                                        {person.position}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Spacecraft: </strong>
-                                                        {person.spacecraft}
-                                                    </p>
-                                                    <p className="popover-p">
-                                                        <strong>Career in Space: </strong>
-                                                        {(
-                                                            (currentEpoch - person.launched) / 86400 +
-                                                            person.days_in_space
-                                                        ).toFixed(0)}{" "}
-                                                        days
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </Typography>
-                                    </Popover>
-                                </li>
-                            ))}
-                        </ul>
-                        <p className="commander-p">* commander</p>
-                        {/* <a className="expedition-p" href={expeditionURL} target="blank">
-                            Expedition {expedition}
-                        </a> */}
-                        <img
-                            className="expedition-patch"
-                            src={patchURL}
-                            alt="current ISS expedition mission patch"
-                        ></img>
-                    </div>
+                                </Popover>
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="commander-p">* commander</p>
+                    <img className="expedition-patch" src={patchURL} alt="current ISS expedition mission patch"></img>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };

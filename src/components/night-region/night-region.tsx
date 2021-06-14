@@ -7,7 +7,7 @@ import {
     getJulianDate,
     getSunEclipticPosition,
     getSunEquatorialPosition,
-} from "../utils";
+} from "../utils.jsx";
 import { Polygon } from "react-leaflet";
 import useInterval from "use-interval";
 
