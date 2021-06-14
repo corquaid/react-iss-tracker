@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/react-iss-tracker/static/css/main.7845026d.chunk.css",
-    "main.js": "/react-iss-tracker/static/js/main.336edd0f.chunk.js",
-    "main.js.map": "/react-iss-tracker/static/js/main.336edd0f.chunk.js.map",
+    "main.css": "/react-iss-tracker/static/css/main.45f340d0.chunk.css",
+    "main.js": "/react-iss-tracker/static/js/main.ed37d623.chunk.js",
+    "main.js.map": "/react-iss-tracker/static/js/main.ed37d623.chunk.js.map",
     "runtime-main.js": "/react-iss-tracker/static/js/runtime-main.ed0cde7d.js",
     "runtime-main.js.map": "/react-iss-tracker/static/js/runtime-main.ed0cde7d.js.map",
     "static/js/2.91538693.chunk.js": "/react-iss-tracker/static/js/2.91538693.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.681024e0.chunk.js": "/react-iss-tracker/static/js/3.681024e0.chunk.js",
     "static/js/3.681024e0.chunk.js.map": "/react-iss-tracker/static/js/3.681024e0.chunk.js.map",
     "index.html": "/react-iss-tracker/index.html",
-    "static/css/main.7845026d.chunk.css.map": "/react-iss-tracker/static/css/main.7845026d.chunk.css.map",
+    "static/css/main.45f340d0.chunk.css.map": "/react-iss-tracker/static/css/main.45f340d0.chunk.css.map",
     "static/js/2.91538693.chunk.js.LICENSE.txt": "/react-iss-tracker/static/js/2.91538693.chunk.js.LICENSE.txt",
     "static/media/header.scss": "/react-iss-tracker/static/media/HelveticaNeueCyr-Bold.e8ac3e02.woff",
     "static/media/International_Space_Station_white.svg.b0c96d56.png": "/react-iss-tracker/static/media/International_Space_Station_white.svg.b0c96d56.png",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.ed0cde7d.js",
     "static/js/2.91538693.chunk.js",
-    "static/css/main.7845026d.chunk.css",
-    "static/js/main.336edd0f.chunk.js"
+    "static/css/main.45f340d0.chunk.css",
+    "static/js/main.ed37d623.chunk.js"
   ]
 }
