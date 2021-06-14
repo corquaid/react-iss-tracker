@@ -29,7 +29,6 @@ h4 {
     font-family: "space grotesk", Arial, sans-serif;
     font-size: 17px;
     text-align: center;
-    /* text-decoration: underline; */
     margin-top: 8px;
 }
 
@@ -48,9 +47,6 @@ a {
     font-size: 14px;
     font-weight: 500;
     line-height: 5px;
-    padding: 1px;
-    /* margin-bottom: 5px; */
-    vertical-align: middle;
 }
 
 a:hover {
@@ -189,7 +185,6 @@ li:last-child {
     height: 24px;
     margin-bottom: 4px;
     overflow: hidden;
-    /* padding: 4px; */
 }
 
 .commander-p {
@@ -232,6 +227,11 @@ li:last-child {
     border-radius: 5px;
 }
 
+.popover-img-exp {
+    width: auto;
+    height: 300px;
+}
+
 .popover-info {
     display: flex;
     flex-direction: column;
@@ -245,6 +245,11 @@ li:last-child {
     font-size: 14px;
     font-weight: 400;
     line-height: 2px;
+}
+
+.popover-link {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .small-flag-crew {
@@ -289,7 +294,6 @@ li:last-child {
             "data         map    map"
             "spacecraft   map    map"
             "crew         crew   link";
-        /* overflow: hidden; */
     }
 
     .data-panel {
@@ -392,6 +396,10 @@ li:last-child {
         overflow: hidden;
     }
 
+    .map-container {
+        width: 100%;
+    }
+
     .crew-panel {
         justify-self: center;
         align-self: center;
@@ -407,5 +415,11 @@ li:last-child {
 
     .commander-p {
         align-self: center;
+    }
+
+    .popover-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }

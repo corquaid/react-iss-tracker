@@ -8,7 +8,6 @@ import { NightRegion } from "./components/night-region/night-region";
 import horizonCircle from "../src/Images/PinClipart.com_pete-the-cat-buttons_1571732.png";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
-// import Spinner from "./components/spinner/spinner";
 import { makeStyles } from "@material-ui/core/styles";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -169,7 +168,6 @@ const App = () => {
     const handleExpPopoverClose = () => {
         setAnchorEl(null);
         setOpenedExpPopoverId(null);
-        // console.log("popover closed")
     };
 
     // Handler functions and variables for Spacecraft Popovers
@@ -240,16 +238,17 @@ const App = () => {
                                     onMouseLeave={handleSpacecraftPopoverClose}
                                 >
                                     <div className="ship-container">
-                                        <a href={ship.url} key={ship.id} target="blank">
-                                            {ship.name}
+                                        <p>{ship.name}</p>
+                                        <a href={ship.url} target="_blank" rel="noreferrer">
+                                            <img
+                                                className="small-flag"
+                                                src={`https://flagcdn.com/w20/${ship.flag_code}.png`}
+                                                alt="spacecraft flag"
+                                            ></img>
                                         </a>
-                                        <img
-                                            className="small-flag"
-                                            src={`https://flagcdn.com/w20/${ship.flag_code}.png`}
-                                            alt="spacecraft flag"
-                                        ></img>
                                     </div>
                                 </Typography>
+
                                 <Popover
                                     id="mouse-over-popover"
                                     className={classes.popover}
@@ -258,13 +257,12 @@ const App = () => {
                                     }}
                                     open={openedSpacecraftPopoverId === ship.id}
                                     anchorEl={anchorEl}
-                                    // anchorPosition={{ top: 500, left: 200 }}
                                     anchorOrigin={{
                                         vertical: "top",
                                         horizontal: "right",
                                     }}
                                     transformOrigin={{
-                                        vertical: "bottom",
+                                        vertical: "center",
                                         horizontal: "left",
                                     }}
                                     onClose={handleSpacecraftPopoverClose}
@@ -386,7 +384,7 @@ const App = () => {
                     >
                         <Typography>
                             <span className="popover-body">
-                                <img className="popover-img" src={expeditionImage} alt="expedition portrait"></img>
+                                <img className="popover-img-exp" src={expeditionImage} alt="expedition portrait"></img>
                             </span>
                         </Typography>
                     </Popover>
@@ -401,16 +399,15 @@ const App = () => {
                                     onMouseLeave={handleCrewPopoverClose}
                                 >
                                     <div className="ship-container">
-                                        <a href={person.url} target="blank">
-                                            {person.name}
-                                        </a>
-
+                                        <p>{person.name}</p>
                                         {person.position === "Commander" && <p className="commander-p">*</p>}
-                                        <img
-                                            className="small-flag-crew"
-                                            src={`https://flagcdn.com/w20/${person.flag_code}.png`}
-                                            alt="spacecraft flag"
-                                        ></img>
+                                        <a href={person.url} target="_blank" rel="noreferrer">
+                                            <img
+                                                className="small-flag-crew"
+                                                src={`https://flagcdn.com/w20/${person.flag_code}.png`}
+                                                alt="spacecraft flag"
+                                            ></img>
+                                        </a>
                                     </div>
                                 </Typography>
                                 <Popover
@@ -426,7 +423,7 @@ const App = () => {
                                         horizontal: "left",
                                     }}
                                     transformOrigin={{
-                                        vertical: "bottom",
+                                        vertical: "center",
                                         horizontal: "right",
                                     }}
                                     onClose={handleCrewPopoverClose}
@@ -459,6 +456,10 @@ const App = () => {
                                                 <p className="popover-p">
                                                     <strong>Spacecraft: </strong>
                                                     {person.spacecraft}
+                                                </p>
+                                                <p className="popover-p">
+                                                    <strong>Mission: </strong>
+                                                    {((currentEpoch - person.launched) / 86400).toFixed(0)} days
                                                 </p>
                                                 <p className="popover-p">
                                                     <strong>Career in Space: </strong>
