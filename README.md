@@ -26,5 +26,6 @@ The following resources were used to create this app:
 ## To-Dos
 - [ ] Add Context API for state management
 - [ ] Split out additional components from App.js
+- [ ] Add lazy loading / Spinners for data fetching
 
 
