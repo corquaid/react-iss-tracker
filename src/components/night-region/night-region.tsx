@@ -14,6 +14,8 @@ import useInterval from "use-interval";
 export const NightRegion = (props: any) => {
     const [positions, setPositions] = useState([]);
 
+    const { intervalDelay } = props;
+
     const getNightRegionPositions: any = (specificDate: any) => {
         const date = specificDate || new Date();
         const julianDate = getJulianDate(date);
@@ -35,10 +37,10 @@ export const NightRegion = (props: any) => {
         return latLng;
     };
 
-    useInterval(async () => {
+    useInterval(() => {
         const nightRegionPositions = getNightRegionPositions();
         setPositions(nightRegionPositions);
-    }, 1000);
+    }, intervalDelay || 3000);
 
     return <Polygon positions={positions} {...props} />;
 };

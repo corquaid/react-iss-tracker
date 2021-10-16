@@ -329,7 +329,7 @@ const App = () => {
                     <FirstCenter issLat={issLat} issLong={issLong} firstCall={firstCall} />
                     <ZoomControl position="topleft" />
                     <FindIss />
-                    <NightRegion fillColor="#00" fillOpacity="0.6" color="#00" worldCopyJump={true} />
+                    <NightRegion fillColor="#00" fillOpacity="0.6" color="#00" worldCopyJump={true} intervalDelay={1000}/>
                     <Marker position={[issLat, issLong]} icon={issIcon}>
                         <Popup>
                             <p>ISS location</p>
